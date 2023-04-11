@@ -8,16 +8,44 @@
       type="text"
       placeholder="Search Books"
       class="tw-border-0 tw-bg-inherit"
-    >
+    />
   </div>
 </div>
-<div class="tw-flex tw-flex-row tw-m-24-px">
-  <section class="trending-subjects">
+<div class="loader" *ngIf="showLoading">
+  <div class="pulsing-2"></div>
+</div>
+<div class="tw-flex tw-flex-row container">
+  <section class="trending-subjects" *ngIf="!isSearchPerformed">
     <div class="tw-font-600 tw-text-24-px">Trending Subjects</div>
     <ul class="tw-list-none tw-pl-0">
-      <li class="tw-text-16-px tw-cursor-pointer tw-p-12-px" *ngFor="let subject of trendingSubjects" routerLink="/trending-subject/{{ subject.name }}">
+      <li
+        class="tw-text-16-px tw-cursor-pointer tw-p-12-px"
+        *ngFor="let subject of trendingSubjects"
+        routerLink="/trending-subject/{{ subject.name }}"
+      >
         {{ subject.name }}
       </li>
     </ul>
   </section>
+  <section
+    class="search-results"
+    *ngIf="isSearchPerformed && !showLoading && !dataNotFound"
+  >
+    <div class="tw-font-600 tw-text-24-px">Search Results</div>
+    <ul class="tw-list-none tw-pl-0">
+      <li
+        class="tw-text-16-px tw-cursor-pointer tw-p-12-px"
+        *ngFor="let book of searchResult?.docs"
+      >
+        {{ book.title }}
+      </li>
+    </ul>
+    <!-- <ul>
+      <li *ngFor="let item of collection | paginate: { itemsPerPage: 10, currentPage: p }"> ... </li>
+    </ul>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
+  </section>
+</div>
+<div class="no-data-found tw-font-600 tw-text-24-px" *ngIf="dataNotFound">
+  Oops! No data Found for this Search
 </div>
