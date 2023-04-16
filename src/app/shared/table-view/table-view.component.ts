@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Book } from 'src/app/core/models/book-response.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'front-end-internship-assignment-table-view',
@@ -9,4 +10,11 @@ import { Book } from 'src/app/core/models/book-response.model';
 export class TableViewComponent {
   @Input() booksList: Book[] = [];
   @Input() subjectName: string = '';
+  @Input() forSearchResults: boolean = false;
+
+  constructor(private router: Router) {}
+
+  navigate() {
+    this.router.navigate(['./']);
+  }
 }

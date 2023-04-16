@@ -5,25 +5,27 @@
 
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
 *,
 html,
 body {
-  @apply
-  tw-font-activ-grotisk
+  @apply tw-font-activ-grotisk
   tw-text-14-px
   tw-box-border
   tw-antialiased;
+  font-family: 'Poppins', sans-serif;
 }
 
 html,
 body {
-  @apply tw-h-full tw-w-full
+  @apply tw-h-full tw-w-full;
+  background: linear-gradient(-225deg, #210443 0%, #573eaa 53%, #020207 100%);
 }
 
 body {
-  @apply tw-m-0 tw-p-0
+  @apply tw-m-0 tw-p-0;
 }
 
 table {

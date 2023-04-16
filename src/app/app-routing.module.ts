@@ -20,6 +20,11 @@ const routes: Routes = [
     component: TrendingSubjectsComponent,
     title: 'Trending Subjects',
   },
+  // {
+  //   path: '**',
+  //   component: HomeComponent,
+  //   title: 'Open Books Library',
+  // },
 ];
 
 @NgModule({

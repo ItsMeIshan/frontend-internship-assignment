@@ -1,51 +1,94 @@
-<div class="header">
-  <div class="tw-text-24-px tw-font-600">Open Books Library</div>
-  <div class="search-button">
-    <mat-icon class="tw-mt-16-px" aria-label="Search Icon">search</mat-icon>
-    <input
-      [formControl]="bookSearch"
-      name="searchKey"
-      type="text"
-      placeholder="Search Books"
-      class="tw-border-0 tw-bg-inherit"
-    />
+<div class="home-component">
+  <div class="header">
+    <div class="tw-text-24-px tw-font-600 tw-flex-grow">Open Books Library</div>
+    <div class="tw-flex tw-align-baseline tw-justify-center tw-flex-grow">
+      <p style="font-size: larger" class="tw-m-0" *ngIf="isChecked">Author</p>
+      <p style="font-size: larger" class="tw-m-0" *ngIf="!isChecked">Title</p>
+      <input
+        type="checkbox"
+        id="toggle"
+        [checked]="isChecked"
+        (change)="isChecked = !isChecked"
+      />
+      <label for="toggle"></label>
+      <!-- <label for="toggle" *ngIf="isChecked">Author</label>
+      <label for="toggle" *ngIf="!isChecked">Title</label> -->
+    </div>
+
+    <div class="search-button">
+      <mat-icon class="tw-mt-16-px" aria-label="Search Icon">search</mat-icon>
+      <input
+        [formControl]="bookSearch"
+        name="searchKey"
+        value="searchString"
+        type="text"
+        placeholder="Search Books"
+        class="tw-border-0 tw-bg-inherit"
+      />
+      <div class="tw-mt-16-px icon-style" (click)="emptySearch()">
+        <mat-icon aria-label="clear">clear</mat-icon>
+      </div>
+    </div>
   </div>
-</div>
-<div class="loader" *ngIf="showLoading">
-  <div class="pulsing-2"></div>
-</div>
-<div class="tw-flex tw-flex-row container">
-  <section class="trending-subjects" *ngIf="!isSearchPerformed">
-    <div class="tw-font-600 tw-text-24-px">Trending Subjects</div>
-    <ul class="tw-list-none tw-pl-0">
-      <li
-        class="tw-text-16-px tw-cursor-pointer tw-p-12-px"
-        *ngFor="let subject of trendingSubjects"
-        routerLink="/trending-subject/{{ subject.name }}"
-      >
-        {{ subject.name }}
-      </li>
-    </ul>
-  </section>
-  <section
-    class="search-results"
-    *ngIf="isSearchPerformed && !showLoading && !dataNotFound"
-  >
-    <div class="tw-font-600 tw-text-24-px">Search Results</div>
-    <ul class="tw-list-none tw-pl-0">
-      <li
-        class="tw-text-16-px tw-cursor-pointer tw-p-12-px"
-        *ngFor="let book of searchResult?.docs"
-      >
-        {{ book.title }}
-      </li>
-    </ul>
-    <!-- <ul>
-      <li *ngFor="let item of collection | paginate: { itemsPerPage: 10, currentPage: p }"> ... </li>
-    </ul>
-    <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
-  </section>
-</div>
-<div class="no-data-found tw-font-600 tw-text-24-px" *ngIf="dataNotFound">
-  Oops! No data Found for this Search
+  <div class="loader-container" *ngIf="showLoading">
+    <div class="loader">
+      <div class="pulsing-2"></div>
+    </div>
+  </div>
+
+  <div class="tw-flex tw-flex-row tw-justify-center container">
+    <section
+      class="trending-subjects"
+      *ngIf="!isSearchPerformed && !showLoading"
+    >
+      <div class="tw-font-600 tw-text-24-px">Trending Subjects</div>
+      <ul class="tw-list-none tw-pl-0">
+        <li
+          class="tw-text-16-px tw-cursor-pointer tw-p-12-px hover-underline-animation"
+          *ngFor="let subject of trendingSubjects"
+          routerLink="/trending-subject/{{ subject.name }}"
+        >
+          {{ subject.name }}
+        </li>
+      </ul>
+    </section>
+    <div
+      *ngIf="
+        searchResult?.docs?.length > 0 &&
+        isSearchPerformed &&
+        !showLoading &&
+        !showError
+      "
+    >
+      <front-end-internship-assignment-table-view
+        [booksList]="searchResult?.docs"
+        [forSearchResults]="true"
+      ></front-end-internship-assignment-table-view>
+    </div>
+  </div>
+  <div class="pagination-container" *ngIf="isSearchPerformed && !showError">
+    <p
+      class="paragraph"
+      *ngFor="
+        let item of searchResult?.docs
+          | paginate
+            : {
+                itemsPerPage: 10,
+                currentPage: p,
+                totalItems: totalItems
+              }
+      "
+    ></p>
+
+    <pagination-controls
+      class="my-pagination"
+      (pageChange)="pageChanged($event)"
+    ></pagination-controls>
+  </div>
+  <!-- <div class="no-data-found tw-font-600 tw-text-24-px" *ngIf="!isUserOnline">
+    Please Check your Internet Connection!
+  </div> -->
+  <div class="no-data-found tw-font-600 tw-text-24-px" *ngIf="showError">
+    {{ errorMessage }}
+  </div>
 </div>

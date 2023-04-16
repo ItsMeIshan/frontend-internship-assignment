@@ -43,6 +43,25 @@ export interface Book {
   public_scan: boolean;
   has_fulltext: boolean;
   availability: Availability;
+  type: string;
+  seed?: string[];
+  title_suggest: string;
+  title_sort: string;
+  edition_key?: string[];
+  publish_date?: string[];
+  publish_year?: number[];
+  isbn?: string[];
+  last_modified_i: number;
+  ebook_count_i: number;
+  ebook_access: string;
+  public_scan_b: boolean;
+  publisher?: string[];
+  language?: string[];
+  author_key?: string[];
+  author_name?: string[];
+  publisher_facet?: string[];
+  _version_: number;
+  author_facet?: string[];
 }
 
 export interface BookResponse {

@@ -1,6 +1,12 @@
+<div class="loader-container" *ngIf="isLoading">
+  <div class="loader">
+    <div class="pulsing-2"></div>
+  </div>
+</div>
 <div *ngIf="allBooks.length > 0">
   <front-end-internship-assignment-table-view
     [booksList]="allBooks"
     [subjectName]="subjectName"
+    [forSearchResults]="false"
   ></front-end-internship-assignment-table-view>
 </div>

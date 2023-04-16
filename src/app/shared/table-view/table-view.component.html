@@ -1,22 +1,53 @@
 <div class="tw-m-24-px">
-  <div class="tw-mb-24-px tw-text-24-px"> Top {{ booksList.length }} book{{ booksList.length > 1 ? "s" : "" }} on {{ subjectName }}</div>
+  <div
+    class="tw-flex tw-items-baseline tw-justify-stretch"
+    *ngIf="!forSearchResults"
+  >
+    <a (click)="navigate()">
+      <mat-icon style="color: white" class="tw-mt-16-px">arrow_back</mat-icon>
+    </a>
 
+    <div
+      style="text-align: center; color: white"
+      class="tw-mb-24-px tw-text-24-px tw-flex-grow-[2]"
+      *ngIf="!forSearchResults"
+    >
+      Top {{ booksList.length }} book{{ booksList.length > 1 ? 's' : '' }} on
+      {{ subjectName }}
+    </div>
+    <div
+      style="text-align: center; color: white"
+      *ngIf="forSearchResults"
+      class="tw-mb-24-px tw-text-24-px tw-flex-grow-[2]"
+    >
+      Search Results
+    </div>
+  </div>
   <ng-container>
     <table class="table-view">
       <thead>
         <tr class="table-row">
           <th class="header">Title and Sub Title</th>
           <th class="header">Author</th>
-          <th class="header">First Publish Year</th>
+          <th class="header" *ngIf="!forSearchResults">First Publish Year</th>
+          <th class="header" *ngIf="forSearchResults">Publish Year</th>
         </tr>
       </thead>
       <tbody class="table-body">
         <tr *ngFor="let book of booksList" class="row-data">
           <td>
-            <a class="tw-no-underline" href="https://openlibrary.org{{ book.key }}" target="_blank">{{ book.title }}</a>
+            <a
+              class="tw-no-underline"
+              href="https://openlibrary.org{{ book.key }}"
+              target="_blank"
+              >{{ book.title }}</a
+            >
           </td>
-          <td>
-            {{ book.authors.length > 0 ? book.authors[0].name : "Unknown" }}
+          <td *ngIf="!forSearchResults">
+            {{ book.authors.length > 0 ? book.authors[0].name : 'Unknown' }}
+          </td>
+          <td *ngIf="forSearchResults">
+            {{ book?.author_name }}
           </td>
           <td>{{ book.first_publish_year }}</td>
         </tr>
